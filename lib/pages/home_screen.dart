@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:been_here_go/components/camera_button.dart';
+import 'package:been_here_go/components/location_info.dart';
 import 'package:been_here_go/providers/auth_provider.dart';
 import 'package:been_here_go/providers/location_provider.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +65,6 @@ class _HomePageState extends State<HomePage> {
         String address =
             '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
 
-        print("ADDress:::: $address");
         return address;
       } else {
         return 'No address available';
@@ -81,6 +81,7 @@ class _HomePageState extends State<HomePage> {
       String address = await getAddressFromLatLon(locatioData);
 
       setState(() {
+        _position = locatioData;
         _address = address;
       });
     } else {
@@ -123,19 +124,9 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(
-                  Icons.location_on,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-                Text(
-                  _address,
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-              ],
-            ),
+            _position != null
+                ? LocationInfo(address: _address)
+                : const LinearProgressIndicator(),
             // camera and button area
             CameraButton(content: content),
 

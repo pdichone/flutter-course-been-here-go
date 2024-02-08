@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:been_here_go/components/camera_button.dart';
 import 'package:been_here_go/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -78,20 +79,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             // camera and button area
-            Container(
-              margin: const EdgeInsets.all(10),
-              height: 200,
-              width: double.infinity,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 1,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.4))),
-              child: content,
-            ),
+            CameraButton(content: content),
           ],
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:been_here_go/components/camera_button.dart';
 import 'package:been_here_go/providers/auth_provider.dart';
 import 'package:been_here_go/providers/location_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -22,12 +23,14 @@ class _HomePageState extends State<HomePage> {
   final _descriptionController = TextEditingController();
   final _thoughtsController = TextEditingController();
   double _rating = 1;
+  LocationData? _position;
+  String _address = '';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    testLocation();
+    _getAddress();
   }
 
   void _takePicture() async {
@@ -49,11 +52,37 @@ class _HomePageState extends State<HomePage> {
         .getCurrentLocation();
   }
 
-  Future<void> testLocation() async {
+  Future<String> getAddressFromLatLon(LocationData position) async {
+    // Geocoding
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          position.latitude!, position.longitude!);
+
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+
+        String address =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+
+        print("ADDress:::: $address");
+        return address;
+      } else {
+        return 'No address available';
+      }
+    } catch (e) {
+      return 'Error  $e';
+    }
+  }
+
+  Future<void> _getAddress() async {
     LocationData? locatioData = await _getCurrentLocation();
     if (locatioData != null) {
-      print(
-          'Latitude: ${locatioData.latitude}, Longitude: ${locatioData.longitude}');
+      // get the address from lat and lon
+      String address = await getAddressFromLatLon(locatioData);
+
+      setState(() {
+        _address = address;
+      });
     } else {
       print('Failed to fetch data!');
     }
@@ -102,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                   color: Theme.of(context).colorScheme.secondary,
                 ),
                 Text(
-                  'Maine County, 87904',
+                  _address,
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ],

@@ -33,6 +33,7 @@ dependencies:
   firebase_core: ^2.25.4
   flutter:
     sdk: flutter
+  geocoding: ^2.1.1
   image_picker: ^1.0.7
   location: ^5.0.3
   provider: ^6.1.1

@@ -19,9 +19,28 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 Provider.of<AuthProvider>(context, listen: false).signOut();
               },
-              icon: Icon(Icons.logout))
+              icon: const Icon(Icons.logout))
         ],
         title: const Text('BeenHere'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.location_on,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+                Text(
+                  'Maine County, 87904',
+                  style: Theme.of(context).textTheme.titleSmall,
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

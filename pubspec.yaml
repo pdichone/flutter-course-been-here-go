@@ -32,6 +32,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.17.4
   firebase_core: ^2.25.4
+  firebase_storage: ^11.6.5
   flutter:
     sdk: flutter
   geocoding: ^2.1.1

@@ -1,5 +1,9 @@
+import 'package:been_here_go/models/place.dart';
+import 'package:been_here_go/providers/auth_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class AddPlaceFrom extends StatefulWidget {
@@ -30,16 +34,39 @@ class _AddPlaceFromState extends State<AddPlaceFrom> {
 
   void _savePlace(String currentUserId) async {
     if (_formKey.currentState!.validate()) {
+      String? imageUrl;
       //save the place
       if (widget.imageFile != null) {
         try {
           // save to storage
-        } catch (e) {}
+          imageUrl = await Provider.of<AuthProvider>(context, listen: false)
+              .uploadImageToFirebase(widget.imageFile!);
+        } catch (e) {
+          print('$e');
+        }
       }
-      // 1. Save the image file to storage
 
-      // 2. Once the image is saved, we can request the image url
       // 3. Instantiate our place object to which we pass the image url
+      final newPlace = Place(
+          userId: currentUserId,
+          name: _nameController.text,
+          description: _descriptionController.text,
+          thoughts: _thoughtsController.text,
+          currentAddress: widget.currentAddress,
+          latitude: widget.latitude,
+          longitude: widget.longitude,
+          rating: _rating,
+          imageUrl: imageUrl);
+
+      // Save to firestore
+      CollectionReference placesRef =
+          FirebaseFirestore.instance.collection('places');
+
+      placesRef.add(newPlace.toJson()).then((value) {
+        // get the docid and update theplace with the doc
+        var docId = value.id;
+        placesRef.doc(docId).update({'docId': docId});
+      });
     }
   }
 
@@ -53,6 +80,8 @@ class _AddPlaceFromState extends State<AddPlaceFrom> {
 
   @override
   Widget build(BuildContext context) {
+    String currentUser =
+        Provider.of<AuthProvider>(context, listen: false).user!.uid;
     return Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -118,10 +147,8 @@ class _AddPlaceFromState extends State<AddPlaceFrom> {
                   height: 20,
                 ),
                 ElevatedButton(
-                    onPressed: () {
-                      // save place
-                    },
-                    child: Text('Save Place'))
+                    onPressed: () => _savePlace(currentUser),
+                    child: const Text('Save Place'))
               ],
             ),
           ),

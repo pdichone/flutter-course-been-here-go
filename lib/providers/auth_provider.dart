@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
@@ -29,8 +30,20 @@ class AuthProvider extends ChangeNotifier {
 
       //Create a File object from XFile's path
       File file = File(imageFile.path);
-      
-    } catch (e) {}
+
+      Reference firebaseStorage =
+          FirebaseStorage.instance.ref().child(filename);
+      UploadTask uploadTask = firebaseStorage.putFile(file);
+
+      // download the image url
+      TaskSnapshot taskSnapshot = await uploadTask;
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
+      // We are ready to save the Place object
+      return downloadUrl;
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<void> signInUserAnonymously() async {

@@ -45,7 +45,8 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-
+<key>NSLocationWhenInUseUsageDescription </key>
+<string> The app uses location so the user knows where they are </string>
 	<key>NSCameraUsageDescription</key>
 	<string>The Camera is needed so that users can document their journey</string>
 	<key>NSMicrophoneUsageDescription</key>

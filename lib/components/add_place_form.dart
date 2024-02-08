@@ -28,6 +28,14 @@ class _AddPlaceFromState extends State<AddPlaceFrom> {
   double _rating = 1;
 
   @override
+  void dispose() {
+    _nameController.dispose();
+    _descriptionController.dispose();
+    _thoughtsController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
         key: _formKey,
@@ -43,11 +51,11 @@ class _AddPlaceFromState extends State<AddPlaceFrom> {
                     labelText: 'Place Name',
                   ),
                   validator: (value) {
-                    // if (value!.isEmpty) {
-                    //   return 'Please enter a name';
-                    // } else {
-                    //   return null;
-                    // }
+                    if (value!.isEmpty) {
+                      return 'Please enter a name';
+                    } else {
+                      return null;
+                    }
                   },
                 ),
                 TextFormField(
@@ -56,24 +64,24 @@ class _AddPlaceFromState extends State<AddPlaceFrom> {
                     labelText: 'Description',
                   ),
                   validator: (value) {
-                    // if (value!.isEmpty) {
-                    //   return 'Please enter a description';
-                    // } else {
-                    //   return null;
-                    // }
+                    if (value!.isEmpty) {
+                      return 'Please enter a description';
+                    } else {
+                      return null;
+                    }
                   },
                 ),
                 TextFormField(
-                  controller: _descriptionController,
+                  controller: _thoughtsController,
                   decoration: const InputDecoration(
                     labelText: 'Thoughts',
                   ),
                   validator: (value) {
-                    // if (value!.isEmpty) {
-                    //   return 'Please enter your thoughts';
-                    // } else {
-                    //   return null;
-                    // }
+                    if (value!.isEmpty) {
+                      return 'Please enter your thoughts';
+                    } else {
+                      return null;
+                    }
                   },
                 ),
                 const SizedBox(
@@ -86,9 +94,9 @@ class _AddPlaceFromState extends State<AddPlaceFrom> {
                     divisions: 4,
                     label: 'Rating: $_rating',
                     onChanged: (double value) {
-                      // setState(() {
-                      //   _rating = value;
-                      // });
+                      setState(() {
+                        _rating = value;
+                      });
                     }),
                 const SizedBox(
                   height: 20,

@@ -25,22 +25,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getAddress();
   }
 
-  void _takePicture() async {
-    final imagePicker = ImagePicker();
-    final XFile? imageFile =
-        await imagePicker.pickImage(source: ImageSource.camera, maxWidth: 450);
-
-    if (imageFile == null) {
-      return;
-    }
-
+  void _onImageTaken(XFile image) {
     setState(() {
-      _selectedImage = imageFile;
+      _selectedImage = image;
     });
   }
 
@@ -89,35 +80,20 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // bodyContent
     Widget bodyContent;
-    Widget content = TextButton.icon(
-        onPressed: _takePicture,
-        icon: const Icon(Icons.camera_alt_outlined),
-        label: const Text('Take a Picture'));
-
-    if (_selectedImage != null) {
-      content = GestureDetector(
-        onTap: _takePicture,
-        child: SizedBox(
-          height: 200,
-          width: double.infinity,
-          child: Image.file(
-            File(_selectedImage!.path),
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
-    }
 
     if (_position != null) {
       {
         bodyContent = Column(
           children: [
             LocationInfo(address: _address),
-            CameraButton(content: content),
+            CameraButton(
+              onImageTaken: _onImageTaken,
+            ),
             AddPlaceFrom(
               latitude: _position!.latitude.toString(),
               longitude: _position!.longitude.toString(),
               currentAddress: _address,
+              imageFile: _selectedImage,
             )
           ],
         );

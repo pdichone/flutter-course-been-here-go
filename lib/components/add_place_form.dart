@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 class AddPlaceFrom extends StatefulWidget {
   final String latitude;
@@ -26,6 +27,21 @@ class _AddPlaceFromState extends State<AddPlaceFrom> {
   final _descriptionController = TextEditingController();
   final _thoughtsController = TextEditingController();
   double _rating = 1;
+
+  void _savePlace(String currentUserId) async {
+    if (_formKey.currentState!.validate()) {
+      //save the place
+      if (widget.imageFile != null) {
+        try {
+          // save to storage
+        } catch (e) {}
+      }
+      // 1. Save the image file to storage
+
+      // 2. Once the image is saved, we can request the image url
+      // 3. Instantiate our place object to which we pass the image url
+    }
+  }
 
   @override
   void dispose() {

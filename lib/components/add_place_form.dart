@@ -82,6 +82,7 @@ class _AddPlaceFromState extends State<AddPlaceFrom> {
         clearText();
 
         // navigate to places screen.
+        Navigator.of(context).pushNamed('/places');
       });
     }
   }

@@ -45,5 +45,10 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<key>NSCameraUsageDescription</key>
+	<string>The Camera is needed so that users can document their journey</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This is needed to allow users to have a better experience using the app</string>
 </dict>
 </plist>

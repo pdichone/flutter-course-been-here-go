@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
         ),
         home: Consumer<AuthProvider>(builder: (context, value, child) {
           if (value.user == null) {
-            print('User is:: ${value.user}');
             return const GetStarted();
           } else {
             return const HomePage();

@@ -31,9 +31,13 @@ class _AddPlaceFromState extends State<AddPlaceFrom> {
   final _descriptionController = TextEditingController();
   final _thoughtsController = TextEditingController();
   double _rating = 1;
+  bool isSaving = false;
 
   void _savePlace(String currentUserId) async {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        isSaving = true;
+      });
       String? imageUrl;
       //save the place
       if (widget.imageFile != null) {
@@ -66,6 +70,18 @@ class _AddPlaceFromState extends State<AddPlaceFrom> {
         // get the docid and update theplace with the doc
         var docId = value.id;
         placesRef.doc(docId).update({'docId': docId});
+
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Place Saved!'),
+          duration: Duration(seconds: 2),
+        ));
+      }).whenComplete(() {
+        setState(() {
+          isSaving = false;
+        });
+        clearText();
+
+        // navigate to places screen.
       });
     }
   }
@@ -146,12 +162,23 @@ class _AddPlaceFromState extends State<AddPlaceFrom> {
                 const SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(
-                    onPressed: () => _savePlace(currentUser),
-                    child: const Text('Save Place'))
+                if (isSaving)
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                else
+                  ElevatedButton(
+                      onPressed: () => _savePlace(currentUser),
+                      child: const Text('Save Place'))
               ],
             ),
           ),
         ));
+  }
+
+  void clearText() {
+    _nameController.clear();
+    _descriptionController.clear();
+    _thoughtsController.clear();
   }
 }

@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:been_here_go/components/camera_button.dart';
 import 'package:been_here_go/providers/auth_provider.dart';
+import 'package:been_here_go/providers/location_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,6 +23,13 @@ class _HomePageState extends State<HomePage> {
   final _thoughtsController = TextEditingController();
   double _rating = 1;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    testLocation();
+  }
+
   void _takePicture() async {
     final imagePicker = ImagePicker();
     final XFile? imageFile =
@@ -33,6 +42,21 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedImage = imageFile;
     });
+  }
+
+  Future<LocationData?> _getCurrentLocation() async {
+    return await Provider.of<LocationProvider>(context, listen: false)
+        .getCurrentLocation();
+  }
+
+  Future<void> testLocation() async {
+    LocationData? locatioData = await _getCurrentLocation();
+    if (locatioData != null) {
+      print(
+          'Latitude: ${locatioData.latitude}, Longitude: ${locatioData.longitude}');
+    } else {
+      print('Failed to fetch data!');
+    }
   }
 
   @override

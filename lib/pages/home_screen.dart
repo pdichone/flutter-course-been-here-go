@@ -15,6 +15,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   XFile? _selectedImage;
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _thoughtsController = TextEditingController();
+  double _rating = 1;
 
   void _takePicture() async {
     final imagePicker = ImagePicker();
@@ -80,6 +85,81 @@ class _HomePageState extends State<HomePage> {
             ),
             // camera and button area
             CameraButton(content: content),
+
+            // Form Area
+            Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        TextFormField(
+                          controller: _nameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Place Name',
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter a name';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        TextFormField(
+                          controller: _descriptionController,
+                          decoration: const InputDecoration(
+                            labelText: 'Description',
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter a description';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        TextFormField(
+                          controller: _descriptionController,
+                          decoration: const InputDecoration(
+                            labelText: 'Thoughts',
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your thoughts';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Slider(
+                            value: _rating,
+                            min: 1,
+                            max: 5,
+                            divisions: 4,
+                            label: 'Rating: $_rating',
+                            onChanged: (double value) {
+                              setState(() {
+                                _rating = value;
+                              });
+                            }),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              // save place
+                            },
+                            child: Text('Save Place'))
+                      ],
+                    ),
+                  ),
+                ))
           ],
         ),
       ),

@@ -87,6 +87,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // bodyContent
+    Widget bodyContent;
     Widget content = TextButton.icon(
         onPressed: _takePicture,
         icon: const Icon(Icons.camera_alt_outlined),
@@ -106,6 +108,24 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
+    if (_position != null) {
+      {
+        bodyContent = Column(
+          children: [
+            LocationInfo(address: _address),
+            CameraButton(content: content),
+            AddPlaceFrom(
+              latitude: _position!.latitude.toString(),
+              longitude: _position!.longitude.toString(),
+              currentAddress: _address,
+            )
+          ],
+        );
+      }
+    } else {
+      bodyContent = const Center(child: CircularProgressIndicator());
+    }
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -118,24 +138,7 @@ class _HomePageState extends State<HomePage> {
         title: const Text('BeenHere'),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _position != null
-                ? LocationInfo(address: _address)
-                : const LinearProgressIndicator(),
-            // camera and button area
-            CameraButton(content: content),
-
-            // Form Area
-            _position != null
-                ? AddPlaceFrom(
-                    latitude: _position!.latitude.toString(),
-                    longitude: _position!.longitude.toString(),
-                    currentAddress: _address,
-                  )
-                : const CircularProgressIndicator()
-          ],
-        ),
+        child: bodyContent,
       ),
     );
   }

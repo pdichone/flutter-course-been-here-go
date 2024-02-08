@@ -31,6 +31,25 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget content = TextButton.icon(
+        onPressed: _takePicture,
+        icon: const Icon(Icons.camera_alt_outlined),
+        label: const Text('Take a Picture'));
+
+    if (_selectedImage != null) {
+      content = GestureDetector(
+        onTap: _takePicture,
+        child: SizedBox(
+          height: 200,
+          width: double.infinity,
+          child: Image.file(
+            File(_selectedImage!.path),
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -60,7 +79,7 @@ class _HomePageState extends State<HomePage> {
             ),
             // camera and button area
             Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               height: 200,
               width: double.infinity,
               alignment: Alignment.center,
@@ -71,18 +90,8 @@ class _HomePageState extends State<HomePage> {
                           .colorScheme
                           .primary
                           .withOpacity(0.4))),
-              child: TextButton.icon(
-                  onPressed: _takePicture,
-                  icon: const Icon(Icons.camera_alt_outlined),
-                  label: const Text('Take a Picture')),
+              child: content,
             ),
-
-            if (_selectedImage != null)
-              SizedBox(
-                height: 200,
-                width: double.infinity,
-                child: Image.file(File(_selectedImage!.path)),
-              )
           ],
         ),
       ),

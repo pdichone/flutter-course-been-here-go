@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:been_here_go/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,6 +13,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  XFile? _selectedImage;
+
+  void _takePicture() async {
+    final imagePicker = ImagePicker();
+    final XFile? imageFile =
+        await imagePicker.pickImage(source: ImageSource.camera, maxWidth: 450);
+
+    if (imageFile == null) {
+      return;
+    }
+
+    setState(() {
+      _selectedImage = imageFile;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,10 +72,17 @@ class _HomePageState extends State<HomePage> {
                           .primary
                           .withOpacity(0.4))),
               child: TextButton.icon(
-                  onPressed: () {},
+                  onPressed: _takePicture,
                   icon: const Icon(Icons.camera_alt_outlined),
-                  label: Text('Take a Picture')),
-            )
+                  label: const Text('Take a Picture')),
+            ),
+
+            if (_selectedImage != null)
+              SizedBox(
+                height: 200,
+                width: double.infinity,
+                child: Image.file(File(_selectedImage!.path)),
+              )
           ],
         ),
       ),

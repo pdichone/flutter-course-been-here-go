@@ -33,6 +33,7 @@ dependencies:
   firebase_core: ^2.25.4
   flutter:
     sdk: flutter
+  image_picker: ^1.0.7
   provider: ^6.1.1
 
 dev_dependencies:

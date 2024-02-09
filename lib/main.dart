@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
           if (value.user == null) {
             return const GetStarted();
           } else {
-            return const PlacesScreen(); //change back to HomePage
+            return const HomePage(); //change back to HomePage
           }
         }));
   }

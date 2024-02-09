@@ -17,6 +17,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     double lat = double.parse(place.latitude.toString());
     double lon = double.parse(place.longitude.toString());
+    String apiKey = 'ADD Your OWnKEY-yuEcNQFxal0fNw';
+
+    String staticMapUrl = 'https://maps.googleapis.com/maps/api/staticmap?'
+        'center=$lat,$lon'
+        '&zoom=13'
+        '&size=600x300'
+        '&maptype=roadmap'
+        '&markers=color:red%7Clabel:S%7C$lat,$lon'
+        '&key=$apiKey';
 
     return Scaffold(
       appBar: AppBar(
@@ -45,6 +54,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
               content: place.thoughts,
               header: 'Thoughts',
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.network(staticMapUrl),
+            )
           ],
         ),
       ),

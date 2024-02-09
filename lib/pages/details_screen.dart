@@ -1,4 +1,5 @@
 import 'package:been_here_go/components/image_stack.dart';
+import 'package:been_here_go/components/text_container.dart';
 import 'package:been_here_go/models/place.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   metadata: 'Visite on:',
                 ),
               ),
-            )
+            ),
+            TextContainer(
+              content: place.description,
+              header: 'Description',
+            ),
+            TextContainer(
+              content: place.thoughts,
+              header: 'Thoughts',
+            ),
           ],
         ),
       ),

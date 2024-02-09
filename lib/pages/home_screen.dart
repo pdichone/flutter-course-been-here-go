@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:been_here_go/components/add_place_form.dart';
 import 'package:been_here_go/components/camera_button.dart';
 import 'package:been_here_go/components/location_info.dart';
+import 'package:been_here_go/components/main_drawer.dart';
 import 'package:been_here_go/providers/auth_provider.dart';
 import 'package:been_here_go/providers/location_provider.dart';
 import 'package:flutter/material.dart';
@@ -116,6 +117,7 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: bodyContent,
       ),
+      drawer: const CustomDrawer(),
     );
   }
 }

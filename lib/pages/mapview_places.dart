@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
-class PlacesScreen extends StatefulWidget {
-  const PlacesScreen({super.key});
+class PlacesMapView extends StatefulWidget {
+  const PlacesMapView({super.key});
 
   @override
-  State<PlacesScreen> createState() => _PlacesScreenState();
+  State<PlacesMapView> createState() => _PlacesMapViewState();
 }
 
-class _PlacesScreenState extends State<PlacesScreen> {
+class _PlacesMapViewState extends State<PlacesMapView> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Places You\'ve Been'),
+      ),
+    );
   }
 }

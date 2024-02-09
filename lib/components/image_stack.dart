@@ -3,9 +3,11 @@ import 'package:been_here_go/models/place.dart';
 import 'package:flutter/material.dart';
 
 class ImageStack extends StatelessWidget {
+  final String? metadata;
   const ImageStack({
     super.key,
     required this.place,
+    this.metadata,
   });
 
   final Place place;
@@ -15,6 +17,14 @@ class ImageStack extends StatelessWidget {
     // Unsplash image URL for placeholder
     const String unsplashPlaceholderUrl =
         'https://source.unsplash.com/random/800x600';
+
+    String contentWidget;
+    if (metadata == null) {
+      contentWidget = place.createdAt!.toDate().toIso8601String().split('T')[0];
+    } else {
+      contentWidget =
+          '$metadata ${place.createdAt!.toDate().toIso8601String().split('T')[0]}';
+    }
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
@@ -39,10 +49,7 @@ class ImageStack extends StatelessWidget {
                 children: [
                   place.createdAt != null
                       ? Text(
-                          place.createdAt!
-                              .toDate()
-                              .toIso8601String()
-                              .split('T')[0],
+                          contentWidget,
                           style: const TextStyle(
                               color: Colors.white, fontSize: 16),
                         )

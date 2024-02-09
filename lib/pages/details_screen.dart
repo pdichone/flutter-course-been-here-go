@@ -30,7 +30,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
               child: SizedBox(
                 height: 200,
                 width: double.infinity,
-                child: ImageStack(place: place),
+                child: ImageStack(
+                  place: place,
+                  metadata: 'Visite on:',
+                ),
               ),
             )
           ],

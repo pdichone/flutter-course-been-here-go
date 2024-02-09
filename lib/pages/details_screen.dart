@@ -1,3 +1,4 @@
+import 'package:been_here_go/models/place.dart';
 import 'package:flutter/material.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -10,6 +11,12 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    final place = ModalRoute.of(context)!.settings.arguments as Place;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(place.name),
+      ),
+    );
   }
 }

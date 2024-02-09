@@ -1,3 +1,4 @@
+import 'package:been_here_go/components/place_tile.dart';
 import 'package:been_here_go/components/star_rating.dart';
 import 'package:been_here_go/models/place.dart';
 import 'package:been_here_go/providers/auth_provider.dart';
@@ -17,9 +18,7 @@ class _PlacesScreenState extends State<PlacesScreen> {
   @override
   Widget build(BuildContext context) {
     final userId = Provider.of<AuthProvider>(context, listen: false).user!.uid;
-// Unsplash image URL for placeholder
-    const String unsplashPlaceholderUrl =
-        'https://source.unsplash.com/random/800x600';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Places'),
@@ -47,87 +46,24 @@ class _PlacesScreenState extends State<PlacesScreen> {
                   );
                 }
 
-                // all is good
-                // return ListView.builder(
-                //   itemCount: places.length,
-                //   itemBuilder: (context, index) {
-                //     return ListTile(
-                //       title: Text(places[index].name),
-                //     );
-                //   },
-                // );
                 return GridView.custom(
                   gridDelegate: SliverStairedGridDelegate(
                     crossAxisSpacing: 48,
                     mainAxisSpacing: 24,
                     startCrossAxisDirectionReversed: true,
                     pattern: [
-                      StairedGridTile(0.5, 1),
-                      StairedGridTile(0.5, 3 / 4),
-                      StairedGridTile(1.0, 10 / 4),
+                      const StairedGridTile(0.5, 1),
+                      const StairedGridTile(0.5, 3 / 4),
+                      const StairedGridTile(1.0, 10 / 4),
                     ],
                   ),
                   childrenDelegate: SliverChildBuilderDelegate(
                     childCount: places.length,
                     (context, index) {
                       final place = places[index];
-                      return Card(
-                          clipBehavior: Clip.antiAlias,
-                          child: SizedBox(
-                            height: 200,
-                            width: double.infinity,
-                            child: Stack(
-                              alignment: Alignment.bottomCenter,
-                              children: [
-                                Positioned.fill(
-                                    child: Image.network(
-                                  place.imageUrl ?? unsplashPlaceholderUrl,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Image.network(
-                                    unsplashPlaceholderUrl,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )),
-                                Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.all(8),
-                                  color: Colors.black.withOpacity(0.5),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      OverflowBar(
-                                        spacing: 8,
-                                        children: [
-                                          place.createdAt != null
-                                              ? Text(
-                                                  place.createdAt!
-                                                      .toDate()
-                                                      .toIso8601String()
-                                                      .split('T')[0],
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 16),
-                                                )
-                                              : const Text(
-                                                  "") //12/45/234TTZsdadf
-                                        ],
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        place.name,
-                                        style: const TextStyle(
-                                            color: Colors.white, fontSize: 16),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      StarRating(rating: place.rating.toInt()),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ));
+                      return PlaceTile(
+                        place: place,
+                      );
                     },
                   ),
                 );

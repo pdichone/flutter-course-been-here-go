@@ -4,6 +4,7 @@ import 'package:been_here_go/pages/home_screen.dart';
 import 'package:been_here_go/pages/places_screen.dart';
 import 'package:been_here_go/providers/auth_provider.dart';
 import 'package:been_here_go/providers/location_provider.dart';
+import 'package:been_here_go/providers/places_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,9 @@ void main() async {
   );
   runApp(
     MultiProvider(providers: [
+      ChangeNotifierProvider(
+        create: (context) => PlacesProvider(),
+      ),
       ChangeNotifierProvider(create: (context) => AuthProvider()),
       ChangeNotifierProvider(create: (context) => LocationProvider())
     ], child: const MyApp()),
@@ -45,7 +49,7 @@ class MyApp extends StatelessWidget {
           if (value.user == null) {
             return const GetStarted();
           } else {
-            return const HomePage();
+            return const PlacesScreen(); //change back to HomePage
           }
         }));
   }

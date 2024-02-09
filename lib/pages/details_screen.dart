@@ -17,7 +17,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     double lat = double.parse(place.latitude.toString());
     double lon = double.parse(place.longitude.toString());
-    String apiKey = 'ADD Your OWnKEY-yuEcNQFxal0fNw';
+    //String apiKey = 'ADD Your OWnKEY-yuEcNQFxal0fNw';
+    String apiKey = 'AIzaSyCbN1RJoKXrWSBNPqBV-yuEcNQFxal0fNw';
 
     String staticMapUrl = 'https://maps.googleapis.com/maps/api/staticmap?'
         'center=$lat,$lon'

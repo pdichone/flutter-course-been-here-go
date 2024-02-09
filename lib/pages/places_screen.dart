@@ -1,3 +1,4 @@
+import 'package:been_here_go/components/star_rating.dart';
 import 'package:been_here_go/models/place.dart';
 import 'package:been_here_go/providers/auth_provider.dart';
 import 'package:been_here_go/providers/places_provider.dart';
@@ -120,6 +121,7 @@ class _PlacesScreenState extends State<PlacesScreen> {
                                             color: Colors.white, fontSize: 16),
                                         overflow: TextOverflow.ellipsis,
                                       ),
+                                      StarRating(rating: place.rating.toInt()),
                                     ],
                                   ),
                                 )
